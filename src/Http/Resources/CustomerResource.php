@@ -4,7 +4,9 @@ namespace Sankhya\Http\Resources;
 
 use Saloon\Http\Response;
 use Sankhya\Contracts\ResourceContract;
+use Sankhya\DataObjects\Record;
 use Sankhya\Http\Requests\LoadRecordsRequest;
+use Sankhya\Http\Requests\SaveRecordRequest;
 
 class CustomerResource extends Resource implements ResourceContract
 {
@@ -27,21 +29,34 @@ class CustomerResource extends Resource implements ResourceContract
 
     public string $primaryKey = 'CODPARC';
 
-//    public function create(array $payload, array $fields = null): SankhyaResponse
-//    {
-//        foreach (['CGC_CPF', 'TIPPESSOA', 'NOMEPARC', 'CODCID'] as $key) {
-//            if (!isset($payload[$key])) {
-//                throw new \InvalidArgumentException("Missing required keys: {$key} cannot be empty");
-//            }
-//        }
-//
-//        return $this->connector->send(
-//            new SaveRecordRequest(
-//                entity: $this->entity,
-//                fields: $fields ?: $this->fields,
-//                payload: $payload
-//            )
-//        )->dto();
-//    }
+    public function create(array $payload, array $fields = null): Response
+    {
+        foreach (['CGC_CPF', 'TIPPESSOA', 'NOMEPARC', 'CODCID', 'CLASSIFICMS'] as $key) {
+            if (!isset($payload[$key])) {
+                throw new \InvalidArgumentException("Missing required keys: {$key} cannot be empty");
+            }
+        }
+
+        return $this->connector->send(
+            new SaveRecordRequest(
+                resource: $this->entity,
+                payload: $payload,
+                fields: $fields ?: $this->defaultFields
+            )
+        );
+    }
+
+    public function update(int $id, array $payload, array $fields = null): Response
+    {
+        return $this->connector->send(
+            new SaveRecordRequest(
+                resource: $this->entity,
+                payload: $payload,
+                key: [$this->primaryKey => $id],
+                fields: $fields ?: $this->defaultFields
+            )
+        );
+
+    }
 
 }

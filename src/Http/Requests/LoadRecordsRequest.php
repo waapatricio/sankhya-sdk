@@ -76,7 +76,7 @@ class LoadRecordsRequest extends Request implements HasBody
         return $response->json('status') != 1;
     }
 
-    public function createDtoFromResponse(Response $response): mixed
+    public function createDtoFromResponse(Response $response): Response
     {
         return SankhyaResponse::fromResponse($response);
     }

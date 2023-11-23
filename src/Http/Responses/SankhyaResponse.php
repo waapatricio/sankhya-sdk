@@ -66,6 +66,41 @@ class SankhyaResponse extends Response implements WithResponse
         );
     }
 
+    public static function fromSaveResponse(Response $response): SankhyaResponse
+    {
+        $responseBody = $response->json('responseBody');
+        $entities = Collection::empty();
+        $total = intval($responseBody['entities']['total']);
+
+        if ($total === 1)
+            $entities->add($responseBody['entities']['entity']);
+
+        if ($total > 1)
+            $entities = Collection::make($responseBody['entities']['entity']);
+
+
+        if ($entities->count() >= 1)
+        {
+            $entities = $entities->map(function($item)
+            {
+                $newItem = array();
+
+                foreach ($item as $key => $value) {
+                    $newItem[$key] = current($value) ?: null;
+                }
+
+                return new Record($newItem);
+            });
+        }
+
+        return new static(
+            total: $total,
+            hasMoreResult: false,
+            offset: 0,
+            entities: $entities
+        );
+
+    }
 
     public static function fromViewResponse(Response $response): SankhyaResponse
     {
