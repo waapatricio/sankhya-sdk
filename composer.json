@@ -1,0 +1,33 @@
+{
+    "name": "waapatricio/sankhya",
+    "description": "Unofficial elegant PHP SDK for Sankhya API.",
+    "keywords": [
+        "waapatricio",
+        "sankhya",
+        "sdk",
+        "api",
+        "api-integrations"
+    ],
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Sankhya\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Washington Patrício",
+            "email": "patricio@tappa.co",
+            "role": "Developer"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php": "^8.2",
+        "saloonphp/saloon": "^3.0",
+        "ext-dom": "*",
+        "ext-simplexml": "*",
+        "spatie/array-to-xml": "^3.0"
+    }
+}
