@@ -5,6 +5,7 @@ namespace Sankhya\DataObjects;
 use Saloon\Contracts\DataObjects\WithResponse;
 use Saloon\Traits\Responses\HasResponse;
 
+
 class Record implements WithResponse
 {
     use HasResponse;

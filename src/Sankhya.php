@@ -11,9 +11,13 @@ use Sankhya\Exceptions\SankhyaException;
 use Sankhya\Http\Auth\SankhyaAuthenticator;
 use Sankhya\Http\Requests\ExecuteQueryRequest;
 use Sankhya\Http\Requests\LoadViewRequest;
+use Sankhya\Http\Resources\AddressResource;
+use Sankhya\Http\Resources\CityResource;
 use Sankhya\Http\Resources\CustomerResource;
+use Sankhya\Http\Resources\NeighborhoodResource;
 use Sankhya\Http\Resources\OrderResource;
 use Sankhya\Http\Resources\ProductResource;
+use Sankhya\Http\Resources\StateResource;
 use Sankhya\Traits\HasLogging;
 use Throwable;
 
@@ -119,6 +123,26 @@ class Sankhya extends Connector {
     public function orders(): OrderResource
     {
         return new OrderResource($this);
+    }
+
+    public function states(): StateResource
+    {
+        return new StateResource($this);
+    }
+
+    public function cities(): CityResource
+    {
+        return new CityResource($this);
+    }
+
+    public function neighborhoods(): NeighborhoodResource
+    {
+        return new NeighborhoodResource($this);
+    }
+
+    public function addresses(): AddressResource
+    {
+        return new AddressResource($this);
     }
 
     public function view(string $viewName, ?array $fields = null, ?string $where = null, ?array $orderby = null): Response

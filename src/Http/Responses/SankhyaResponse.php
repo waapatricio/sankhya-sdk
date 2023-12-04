@@ -11,6 +11,12 @@ use Saloon\Traits\Responses\HasResponse;
 use Sankhya\DataObjects\Record;
 
 
+/**
+ * @property int $total
+ * @property bool $hasMoreResult
+ * @property int $offset
+ * @property array|Collection $entities
+ */
 class SankhyaResponse extends Response implements WithResponse
 {
     use HasResponse;
@@ -100,6 +106,22 @@ class SankhyaResponse extends Response implements WithResponse
             entities: $entities
         );
 
+    }
+
+    public static function fromSaveOrderResponse(Response $response): SankhyaResponse
+    {
+        $responseBody = $response->json('responseBody');
+        $entities = Collection::empty();
+
+        if($responseBody['pk']['NUNOTA']['$'])
+            $entities->add(new Record(['NUNOTA' => $responseBody['pk']['NUNOTA']['$']]));
+
+        return new static(
+            total: $entities->count(),
+            hasMoreResult: false,
+            offset: 0,
+            entities: $entities
+        );
     }
 
     public static function fromViewResponse(Response $response): SankhyaResponse
